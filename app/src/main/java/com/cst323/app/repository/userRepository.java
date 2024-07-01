@@ -10,7 +10,6 @@ public interface userRepository extends JpaRepository<user, Long> {
 
     //Query methods, CRUD methods created with JpaRepository interface
 
-    //Delete method to fix method in service method
-    void deleteUser(Long id);
+    void deleteById(Long id);
     
 }

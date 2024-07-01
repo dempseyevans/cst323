@@ -1,5 +1,6 @@
 package com.cst323.app.service;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,13 @@ public class userService {
 
     public void deleteUser(Long id)
     {
-        userRepository.deleteUser(id);
+        userRepository.deleteById(id);
+    }
+
+    public user getUserById(Long id) {
+        Optional<user> findUser = userRepository.findById(id);
+
+        return findUser.orElse(null);
     }
     
 }
