@@ -23,13 +23,13 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-        working-directory: ./cst323app
+        working-directory: ./cst323app/app
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/cst323/app/target/*.jar'
+          path: '${{ github.workspace }}/app/target/*.jar'
 
   deploy:
     runs-on: windows-latest
