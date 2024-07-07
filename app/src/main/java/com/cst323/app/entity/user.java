@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "userData", schema= "users")
+@Table(name = "userData", schema= "jd26h06jfn0egoc6") //see what happens when chaning to user_Data in Azure
 public class user {
     
     @Id
