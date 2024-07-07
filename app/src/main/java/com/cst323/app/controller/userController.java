@@ -1,5 +1,4 @@
 package com.cst323.app.controller;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.cst323.app.entity.user;
 import com.cst323.app.service.userService;
 
+
+
+
+
+
 @Controller
-@RequestMapping("/users")
+@RequestMapping({"", "/"})
 public class userController {
 
-    @Autowired
     private final userService userService;
 
     
@@ -24,24 +27,48 @@ public class userController {
         this.userService = userService;
     }
 
-     @GetMapping("")
+    @GetMapping
+    public String addUserForm(Model model) {
+        model.addAttribute("user", new user());
+        return "addUser";
+    }
+    
+
+     @GetMapping("/users")
     public String getAllUsers(Model model)
     {
         model.addAttribute("users", userService.getAllUsers());
         return "userList";
-    }
+    }    
 
-    @GetMapping("/add")
-    public String showAddUserForm(Model model)
-    {
-        model.addAttribute("userForm", new user());
-        return "addUser";
-    }
-    
+   @GetMapping("/register")
+   public String showRegisterForm(Model model) {
+       model.addAttribute("user", new user());
+       return "register";
+   }
+
+   @PostMapping("/register")
+   public String registerUser(@ModelAttribute("user") user user) {
+        userService.saveUser(user);
+        return "redirect:/login";
+   }
    
 
+   @GetMapping("/addUser")
+   public String showAddUserForm(Model model) {
+        model.addAttribute("user", new user());
+       return "addUser";
+   }
+   
+   @PostMapping("/login")
+   public String processLogin(@ModelAttribute("user") user user) {
+        
+       return "redirect:/users";
+   }
+   
+   
     @PostMapping("/save")
-    public String createUser(@ModelAttribute("userForm") user user)
+    public String saveUser(@ModelAttribute("userForm") user user)
     {
         userService.saveUser(user);
         return "redirect:/users";
@@ -59,7 +86,7 @@ public class userController {
         user existingUser = userService.getUserById(id);
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setPassword(updatedUser.getPassword());
         userService.updateUser(existingUser); // Update the user using  userService
         return "redirect:/users"; // Redirect to the list of users after successful update
     }
@@ -68,5 +95,11 @@ public class userController {
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id); // Delete the user using your userService
         return "redirect:/users"; // Redirect to the list of users after deletion
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("user", new user());
+        return "addUser"; // Return the login page view name
     }
 }
