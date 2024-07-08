@@ -19,6 +19,7 @@ public class userService {
         return userRepository.findAll();
     }
 
+    
     public user saveUser(user user)
     {
         return userRepository.save(user);
@@ -29,7 +30,7 @@ public class userService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(Long id)
+    public void deleteUserById(Long id)
     {
         userRepository.deleteById(id);
     }

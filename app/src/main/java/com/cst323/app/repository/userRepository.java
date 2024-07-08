@@ -9,8 +9,8 @@ import com.cst323.app.entity.user;
 public interface userRepository extends JpaRepository<user, Long> {
 
     //Query methods, CRUD methods created with JpaRepository interface
-    @SuppressWarnings("null")
-    @Override
-    void deleteById(Long id);
+    //@SuppressWarnings("null")
+    //@Override
+    //void deleteById(Long id);
 }
     

@@ -1,6 +1,9 @@
 package com.cst323.app.controller;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +32,7 @@ public class userController {
 
     @GetMapping
     public String addUserForm(Model model) {
+        List<user> users = userService.getAllUsers();
         model.addAttribute("user", new user());
         return "addUser";
     }
@@ -74,14 +78,14 @@ public class userController {
         return "redirect:/users";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/users/{id}/edit")
     public String showEditUserForm(@PathVariable("id") Long id, Model model) {
         user user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "editUser";
     }
 
-    @PostMapping("/{id}/edit")
+    @PostMapping("/users/{id}/edit")
     public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") user updatedUser) {
         user existingUser = userService.getUserById(id);
         existingUser.setFirstName(updatedUser.getFirstName());
@@ -93,9 +97,21 @@ public class userController {
 
     @GetMapping("/{id}/delete")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id); // Delete the user using your userService
+        userService.deleteUserById(id); // Delete the user using your userService
         return "redirect:/users"; // Redirect to the list of users after deletion
     }
+
+    @DeleteMapping("/users/{id}")
+    public String deleteUserWithId(@PathVariable Long id) {
+    userService.deleteUserById(id);
+    return "redirect:/users";
+}
+    @PostMapping("/users")
+    public String addUser(@ModelAttribute("user") user user) {
+        userService.saveUser(user);
+        return "redirect:/users"; // Redirect to user list page or wherever appropriate
+    }
+
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
