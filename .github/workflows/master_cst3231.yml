@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Java version
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v1
         with:
           java-version: '17'
           distribution: 'microsoft'
@@ -27,7 +27,7 @@ jobs:
         working-directory: ./app
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: java-app
           path: '${{ github.workspace }}/app/target/*.jar'
@@ -43,12 +43,12 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: java-app
       
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_180687738954418790613A27E8620B97 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_64BC79233138477DB9D29435256A4F2E }}
@@ -56,7 +56,7 @@ jobs:
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'cst3231'
           slot-name: 'Production'
