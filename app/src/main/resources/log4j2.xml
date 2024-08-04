@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </Console>
+        <!-- Other appenders like Console, File, etc. -->
+        
+        <Http name="Loggly" url="https://logs-01.loggly.com/inputs/102ba555-23ab-4571-ba00-cd96efce3f0a/tag/http/">
+            <PatternLayout pattern="%d %p %c [%t] %m%n"/>
+        </Http>
     </Appenders>
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="Loggly"/>
         </Root>
+        <!-- Other loggers -->
     </Loggers>
 </Configuration>
