@@ -24,12 +24,13 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
+        working-directory: ./app
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.war'
+          path: '${{ github.workspace }}/app/target/*.jar'
 
   deploy:
     runs-on: windows-latest
@@ -59,5 +60,5 @@ jobs:
         with:
           app-name: 'cst3231'
           slot-name: 'Production'
-          package: '*.war'
+          package: '*.jar'
           
